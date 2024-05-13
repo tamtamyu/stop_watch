@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="author" content="Yuya Tamura"> 
+<title>ストップウォッチ</title> 
+</head> 
+<body text="#000000" bgcolor="#ffffff"> 
+<script type ="text/javascript"> 
+var Txt ;
+var time0, time1, time2 = 0;
+var cs, secc, sec, min ;
+//cs→センチ秒, sec→秒, min→分, secc→secとminを導出するための変数
+function timer_start(){ 
+    //スタート時の時間をtime0とする
+    time0 = new Date().getTime() ;
+    blink();
+} 
+
+
+function blink(){ 
+    //経過時間をtime1とする
+    time1 = new Date().getTime() - time0 + time2;
+    cs = Math.floor(time1 % 100);
+    secc = Math.floor(time1 / 1000);
+    sec = secc % 60 ;
+    min = Math.floor(secc / 60) ;
+    if(min<10) min = "0" + min ;
+    if(sec<10) sec = "0" + sec ;
+    if(cs<10) cs = "0" + cs ;
+
+    Txt = min + ":" + sec + ":" + cs ; 
+
+    document.forms.elements.value  =  Txt ;
+
+    timerID = setTimeout('blink()', 10) ; 
+}
+
+
+
+function timer_stop(){ 
+   clearTimeout(timerID) ; 
+   //time2 : time1の値を保存しておいてリスタートした際に足す、初期値０
+   time2 = 0 ;
+   time2 = time1 ;
+} 
+function timer_clear(){ 
+   document.forms.elements.value = "00:00:00" ; 
+   //初期値に戻すためのtime = 0 ;
+   time2 = 0 ;
+} 
+
+
+
+
+</script> 
+ 
+<h3>ストップウォッチ</h3> 
+<form name="forms"> 
+<input type="text" name="elements" size="14" value="00:00:00"> 
+<input type="button" value="開始" onClick="timer_start()"> 
+<input type="button" value="停止" onClick="timer_stop()"> 
+<input type="button" value="クリア" onClick="timer_clear()"> 
+</form> 
+</body> 
+</html> 
